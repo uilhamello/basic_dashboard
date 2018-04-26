@@ -72,7 +72,12 @@ class ManagerSessionController{
 		} else {
 			if(array_key_exists(self::$module, Route::getModuleRoute())){
 				self::$class_called = Route::getModuleRoute(self::$module);
+			}else{
+				self::$module = 'dashboard';
+				self::$class_called = Route::getModuleRoute(self::$module);
 			}
+
+			
 		}
 
 	}	
