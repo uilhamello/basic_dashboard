@@ -4,11 +4,16 @@
  * @var [type]
  */
 $ACCESS_WITHOUT_LOGGIN = [
-	'checklogin' => [
-		'controller' => 'LoginController',
-		'method' => 'login',
-		'view' => 'CheckLogin',
-	],
+    'checklogin' => [
+        'controller' => 'LoginController',
+        'method' => 'login',
+        'view' => 'CheckLogin',
+    ],
+    'init_config' => [
+        'controller' => 'IniConfigController',
+        'method' => 'index',
+        'view' => 'iniconfig',
+    ],
 	'register_view' => [
 		'controller' => 'LoginController',
 		'method' => 'register_view',
@@ -29,7 +34,7 @@ $ROUTE_MODULES = [
 	'dashboard' => [
 		'controller' => 'DashboardController',
 		'method' => 'index',
-		'view' => 'asdfasd',
+		'view' => '',
 	],
 	'user' => [
 		'controller' => 'User',
@@ -41,10 +46,10 @@ $ROUTE_MODULES = [
 		'method' => 'logout',
 		'view' => 'login.html'
 	],
-	'connection_ssh' => [
-		'controller' => 'MachineController',
+	'helloworld' => [
+		'controller' => 'HelloWorldController',
 		'method' => 'index',
-		'view' => 'machine/index.html'
+		'view' => 'helloworld.html'
 	],
 	'logout' => [
 		'controller' => 'LoginController',
@@ -63,14 +68,21 @@ $ROUTE_MODULES = [
  * @var [type]
  */
 $LOGIN =[
-	  'controller' => 'LoginController',
-	  'method' => 'index',
-	  'view' => 'login.html',
-	];
+    'controller' => 'LoginController',
+    'method' => 'index',
+    'view' => 'login.html',
+];
+
+$INI_CONFIG =[
+    'controller' => 'IniConfigController',
+    'method' => 'index',
+    'view' => 'index.html',
+];
 
 /**
  * Keeps the database configuration at a session avoiding to open this file more than once
  */
 $_SESSION['LIB_XX_ROUTE_MODULES'] =  $ROUTE_MODULES;
 $_SESSION['LIB_XX_ACCESS_LOGGIN'] =  $LOGIN;
+$_SESSION['LIB_XX_ACCESS_INICONFIG'] =  $LOGIN;
 $_SESSION['LIB_XX_ACCESS_WITHOUT_LOGGIN'] = $ACCESS_WITHOUT_LOGGIN;

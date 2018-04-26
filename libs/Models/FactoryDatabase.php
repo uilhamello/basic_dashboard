@@ -18,13 +18,19 @@ class FactoryDatabase extends PDO{
 	 */
 	public function __construct($_connect = NULL)
 	{
-		$this->setConnect($_connect);
+	    if($_connect != 'no_auto_connect') {
+            $this->setConnect($_connect);
+        }
 	}
+
+	public function testConnect($config) {
+	    return$this->connect($config,[],true);
+    }
 
 	/*
 	 * Creating a conection by PDO
 	*/
-	private function connect($_CONFIG_DB, $_array_options =array())
+	private function connect($_CONFIG_DB, $_array_options =array(), $return = false)
 	{
 
 		if(empty($_array_options))
@@ -40,14 +46,17 @@ class FactoryDatabase extends PDO{
 	    if (is_array($_CONFIG_DB)) {
 	        try{
 	            $this->connect = new PDO("".$_CONFIG_DB["DRIVER"].":host=".$_CONFIG_DB["HOST"].";dbname=".$_CONFIG_DB["DBNAME"]."", $_CONFIG_DB["USER"], $_CONFIG_DB["PASSWORD"], $options);
-
         		$this->setDbName($_CONFIG_DB["DBNAME"]);
         		$connected = true;
 
         	}
 	        catch(PDOException $e)
 	        {
-	            die($e->getMessage());
+	            if($return){
+	                return false;
+                }else{
+                    die($e->getMessage());
+                }
 	        }
 	    }
 

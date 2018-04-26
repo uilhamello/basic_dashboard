@@ -22,7 +22,15 @@ require SYS_ROOT."config/routes_autoload.php";
 //Functions to View
 require SYS_ROOT."libs/Helpers/HTMLFunctions.php";
 
+
 $without_loggin =  ['checklogin'];
+
+$filename = SYS_ROOT.'config/config.ini';
+
+if (!file_exists($filename)) {
+    // include_once SYS_ROOT.'init.php';
+    $_GET['module'] ='init_config';
+}
 
 ManagerSessionController::getController();
 
