@@ -2,4 +2,4 @@
 host = "localhost"
 username = "root"
 password = "secret"
-db_name = "teste"
+db_name = "dbname"

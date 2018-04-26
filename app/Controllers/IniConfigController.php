@@ -34,19 +34,22 @@ class IniConfigController extends Controller
                         'db_name' => $_CONFIG_DB["DBNAME"],
                     ));
                 try{
-                    $this->write_ini_file($arrayIni, SYS_ROOT.'config/config.ini', true);
+                    if(!$this->write_ini_file($arrayIni, SYS_ROOT.'config/config.ini', true)) {
+                        view('iniconfig.html');
+                        return ['message'=>'Sem permissão para criar arquivo config/config.ini. <br>Libera a permissão de escrita ao diretório \'config/\' (alterando a permissao \'chmod\' ou o dono \'chown\')', 'alert-class' => 'alert-danger'];
+                    }
 
                     if($this->create_userAction($fact)){
                         redirect_route('login');
                     }
                     else{
                         view('iniconfig.html');
-                        return ['message'=>'Erro ao tentar gerar a tabela User. Tente executar: <br>'.$this->create_user(), 'alert-class' => 'alert-danger'];;
+                        return ['message'=>'Erro ao tentar gerar a tabela User. Tente executar: <br>'.$this->create_user(), 'alert-class' => 'alert-danger'];
                     }
                 }
                 catch (Exception $e){
                     view('iniconfig.html');
-                    return ['message'=>'Erro na criação do config.ini. Tente novamente ou crie-o com base em config.ini.example', 'alert-class' => 'alert-danger'];;
+                    return ['message'=>'Erro na criação do config.ini. Tente novamente ou crie-o com base em config.ini.example', 'alert-class' => 'alert-danger'];
                 }
 
             }else{
@@ -88,7 +91,7 @@ class IniConfigController extends Controller
             }
         }
 
-        if (!$handle = fopen($path, 'w')) {
+        if (!$handle = @fopen($path, 'w')) {
             return false;
         }
 
