@@ -30,6 +30,9 @@ $filename = SYS_ROOT.'config/config.ini';
 if (!file_exists($filename)) {
     // include_once SYS_ROOT.'init.php';
     $_GET['module'] ='init_config';
+    if(isset($_SESSION)){
+        session_destroy();
+    }
 }
 
 ManagerSessionController::getController();
