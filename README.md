@@ -1,2 +1,2 @@
 # Basic Dashboard
-Login Basico com PHP puro
+Login Básico com PHP puro
