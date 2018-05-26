@@ -38,13 +38,13 @@ class Migration
     public static function build()
     {
         try{
+            //get table structure defined
+            get_called_class()::create();
             if(!self::$db_connect->check_if_table_exist(self::$table)){
-                //get table structure defined
-                get_called_class()::create();
                 if(empty(self::$fields)){
                     die("No fields to create the table");
                 }
-                $sql = "CREATE TABLE ".self::$table." (".self::$fields." ".self::$primary_key.");";
+               $sql = "\nCREATE TABLE ".self::$table." (".self::$fields." ".self::$primary_key.");";
 
                 self::$db_connect->setQueries($sql);
                 self::$db_connect->prepareQuery();
@@ -54,6 +54,16 @@ class Migration
         }catch (PDOException $exception){
             die($exception);
         }
+    }
+
+    public static function migrate()
+    {
+        foreach (glob(APP_MIGRATION.'*.php') as $file) {
+            $class = basename($file, '.php');
+            $migration = new $class();
+            $migration::build();
+        }
+        return true;
     }
 
     public static function setFields($_fields)

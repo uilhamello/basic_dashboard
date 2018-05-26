@@ -8,7 +8,9 @@
 
 class UserMigration extends Migration
 {
-
+    /**
+     *
+     */
     public static function create()
     {
         self::table("users");

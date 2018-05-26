@@ -39,7 +39,7 @@ class IniConfigController extends Controller
                         return ['message'=>'Sem permissão para criar arquivo config/config.ini. <br>Libera a permissão de escrita ao diretório \'config/\' (alterando a permissao \'chmod\' ou o dono \'chown\')', 'alert-class' => 'alert-danger'];
                     }
 
-                    if($this->create_userAction($fact)){
+                    if($this->buildMigrations()){
                         redirect_route('login');
                     }
                     else{
@@ -103,11 +103,9 @@ class IniConfigController extends Controller
         return $success;
     }
 
-    public function create_userAction($conn)
+    public function buildMigrations()
     {
-        $user = new UserMigration();
-        $user::build();
-        $user::getCreatedSql();
+        Migration::migrate();
         return true;
     }
 

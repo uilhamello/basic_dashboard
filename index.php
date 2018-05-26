@@ -14,7 +14,9 @@ ini_set('bower_path', 'public/bower_components/');
 define('SYS_ROOT', $_SERVER['DOCUMENT_ROOT']);
 //Define a constante with de path enviroment 
 define('APP_VIEWS', SYS_ROOT.'/app/views/');
-//Define a constante with de path enviroment 
+//Define a constante with de path enviroment
+define('APP_MIGRATION', SYS_ROOT.'/app/Migrations/');
+//Define a constante with de path enviroment
 define('SYS_CONFIG', SYS_ROOT.'/config/');
 
 //INclude the autoload configuration
