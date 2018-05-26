@@ -46,15 +46,10 @@ $ROUTE_MODULES = [
 		'method' => 'logout',
 		'view' => 'login.html'
 	],
-	'helloworld' => [
-		'controller' => 'HelloWorldController',
+	'produto' => [
+		'controller' => 'ProdutoController',
 		'method' => 'index',
 		'view' => 'helloworld.html'
-	],
-	'logout' => [
-		'controller' => 'LoginController',
-		'method' => 'logout',
-		'view' => 'login.html'
 	],
 	'logout' => [
 		'controller' => 'LoginController',
