@@ -16,11 +16,17 @@ function __autoload($CLASS){
   elseif(file_exists(SYS_ROOT."libs/Encryption/".$CLASS.".php")){
       include_once SYS_ROOT."libs/Encryption/".$CLASS.".php";
   }
+  elseif(file_exists(SYS_ROOT."libs/Migrations/".$CLASS.".php")){
+      include_once SYS_ROOT."libs/Migrations/".$CLASS.".php";
+  }
   elseif(file_exists(SYS_ROOT."app/Models/".$CLASS.".php")){
       include_once SYS_ROOT."app/Models/".$CLASS.".php";
   }
   elseif(file_exists(SYS_ROOT."app/Controllers/".$CLASS.".php")){
       include_once SYS_ROOT."app/Controllers/".$CLASS.".php";
+  }
+  elseif(file_exists(SYS_ROOT."app/Migrations/".$CLASS.".php")){
+      include_once SYS_ROOT."app/Migrations/".$CLASS.".php";
   }
   else{
     die('Class [' .$CLASS. '] Not file');

@@ -13,22 +13,16 @@ if(file_exists('config/config.ini')) {
     $ini_array = parse_ini_file("config.ini", true);
 
     $LIB_XX_CONFIG_DB  = [
-        "mysql_dev" => [
+        "default" => $ini_array['server']['driver'],
+        "mysql" => [
             "default" => true,
             "DRIVER" => "mysql",
-            "HOST" => $ini_array['local']['host'],
-            "DBNAME" => $ini_array['local']['db_name'],
-            "USER" => $ini_array['local']['username'],
-            "PASSWORD" => $ini_array['local']['password']
+            "HOST" => $ini_array[$ini_array['server']['env']]['host'],
+            "DBNAME" => $ini_array[$ini_array['server']['env']]['db_name'],
+            "USER" => $ini_array[$ini_array['server']['env']]['username'],
+            "PASSWORD" => $ini_array[$ini_array['server']['env']]['password']
         ],
-        "mysql_prod" => [
-            "DRIVER" => "mysql",
-            "HOST" => "",
-            "DBNAME" => "",
-            "USER" => "",
-            "PASSWORD" => ""
-        ],
-        "pgsql_prod" => [
+        "pgsql" => [
             "DRIVER" => "pgsql",
             "HOST" => "",
             "DBNAME" => "",
