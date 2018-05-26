@@ -7,6 +7,7 @@ class IniConfigController extends Controller
 
     public function index()
     {
+
         if(empty($_POST['user'])
             || empty($_POST['password'])
             || empty($_POST['host'])
@@ -15,7 +16,6 @@ class IniConfigController extends Controller
             view('iniconfig.html');
             return false;
         }else{
-
             $fact = new FactoryDatabase('no_auto_connect');
             $_CONFIG_DB["DRIVER"]=$_POST['driver'];
             $_CONFIG_DB["HOST"]=$_POST['host'];
@@ -27,7 +27,7 @@ class IniConfigController extends Controller
 
             if($fact->getConnect()){
                 $arrayIni = array(
-                    'local' => array(
+                    'development' => array(
                         'host' => $_CONFIG_DB["HOST"],
                         'username' => $_CONFIG_DB["USER"],
                         'password' => $_CONFIG_DB["PASSWORD"],
@@ -44,7 +44,7 @@ class IniConfigController extends Controller
                     }
                     else{
                         view('iniconfig.html');
-                        return ['message'=>'Erro ao tentar gerar a tabela User. Tente executar: <br>'.$this->create_user(), 'alert-class' => 'alert-danger'];
+                        return ['message'=>"Erro ao tentar gerar as Migrations. Log de execusao: <br>", 'alert-class' => 'alert-danger'];
                     }
                 }
                 catch (Exception $e){
@@ -60,7 +60,9 @@ class IniConfigController extends Controller
     }
 
     public function write_ini_file($assoc_arr, $path, $has_sections=FALSE) {
-        $content = "";
+        $content = "[server]\n";
+        $content .= "env = \"development\"\n";
+        $content .= "driver = \"mysql\"\n";
         if ($has_sections) {
             foreach ($assoc_arr as $key=>$elem) {
                 $content .= "[".$key."]\n";
@@ -103,33 +105,10 @@ class IniConfigController extends Controller
 
     public function create_userAction($conn)
     {
-        $exit_table = $this->check_if_table_exist($conn, 'users');
-        if(empty($exit_table)){
-            $conn->setQueries($this->create_user());
-            $conn->prepareQuery();
-            return $conn->stmtExecute();
-        }
+        $user = new UserMigration();
+        $user::build();
+        $user::getCreatedSql();
         return true;
     }
 
-    public function check_if_table_exist($conn, $table)
-    {
-        "SHOW TABLES LIKE '".$table."'";
-        $conn->setQueries("SHOW TABLES LIKE '".$table."'");
-        $conn->prepareQuery();
-        return $conn->resultset();
-    }
-
-    public function create_user()
-    {
-        return "CREATE TABLE users (
-                    `id` INT NOT NULL AUTO_INCREMENT,
-                    `name` VARCHAR(150) NOT NULL,
-                    `username` VARCHAR(100) NOT NULL,
-                    `password` VARCHAR(100) NOT NULL,
-                    `created_at` DATETIME NULL,
-                    `updated_at` DATETIME NULL,
-                    `deleted_at` DATETIME NULL,
-                    PRIMARY KEY (`id`));";
-    }
 }

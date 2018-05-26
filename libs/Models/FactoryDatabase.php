@@ -14,7 +14,7 @@ class FactoryDatabase extends PDO{
 	
 	/**
 	 * [__construct description]
-	 * @param [type] $_connect [description]
+	 * @param [type] $_connect a string which describe a db config that will gonna used
 	 */
 	public function __construct($_connect = NULL)
 	{
@@ -23,8 +23,9 @@ class FactoryDatabase extends PDO{
         }
 	}
 
-	public function testConnect($config) {
-	    return$this->connect($config,[],true);
+	public function testConnect($config)
+    {
+	    return $this->connect($config,[],true);
     }
 
 	/*
@@ -73,51 +74,13 @@ class FactoryDatabase extends PDO{
 	public function setConnect($_connect = NULL)
 	{
 		//SEssion with Database configuration
-		if(!isset($_session['LIB_XX_CONFIG_DB'])){
+		if(!isset($_SESSION['LIB_XX_CONFIG_DB'])){
 			require(SYS_CONFIG."database.php");
 		}	
 
-		if(!empty($_connect)){
-			if(array_key_exists($_connect, $LIB_XX_CONFIG_DB)){
-				$connected = $this->connect($LIB_XX_CONFIG_DB[$_connect]);
-				if(!$connected){
-					die(" Fatal Error: Database configuration not working");
-				}
-
-	            $this->setConnectionName($_connect);
-
-			}
-			else{
-				die(" Fatal Error: Database configuration not existe");
-			}
-
-		}
-		else{
-			
-			$CONFIG_VALID = false;
-
-			/*check whether exist a default database configuration*/
-			foreach ($LIB_XX_CONFIG_DB as $key => $value) {
-				if(isset($value['default'])){
-					if($value['default']){
-
-						$CONNECTION_NAME = $key;
-						$CONFIG_VALID = $value;
-						break;
-					}
-				}
-			}
-			
-			if(!$CONFIG_VALID){
-					die("Fatal Error: There is not a valid database configuration.");
-			}
-
-			if ($this->connect($CONFIG_VALID)) {
-	            $this->setConnectionName($CONNECTION_NAME);
-			}
-
-		}
-
+        if ($this->connect($_SESSION['LIB_XX_CONFIG_DB'][$_SESSION['LIB_XX_CONFIG_DB']['default']])) {
+            $this->setConnectionName($_SESSION['LIB_XX_CONFIG_DB']['default']);
+        }
 	}
 
 	/**
@@ -313,7 +276,8 @@ class FactoryDatabase extends PDO{
 		}
 	}
 
-	public function bindexecute($param, $value, $type = null){
+	public function bindexecute($param, $value, $type = null)
+    {
 	    if (is_null($type)) {
 	        switch (true) {
 	            case is_int($value):
@@ -338,5 +302,13 @@ class FactoryDatabase extends PDO{
     	}
 
 	}
+
+    public function check_if_table_exist($table)
+    {
+        "SHOW TABLES LIKE '".$table."'";
+        $this->setQueries("SHOW TABLES LIKE '".$table."'");
+        $this->prepareQuery();
+        return $this->resultset();
+    }
 
 }
